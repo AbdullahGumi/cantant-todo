@@ -5,6 +5,7 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { useLayoutEffect, useState } from "react";
 
@@ -12,8 +13,10 @@ import { CommonScreenProps } from "../navigation/types";
 import Todo from "../components/Todo";
 import { AddIcon, CheckListUndraw } from "../../assets/svg";
 import { ITodo } from "../types";
+import AddTodoModal from "../components/AddTodoModal";
 
 const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   useLayoutEffect(() => {
@@ -36,7 +39,7 @@ const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {true ? (
+      {todos.length === 0 ? (
         <View style={styles.emptyListContainer}>
           <View style={{ marginTop: "auto" }}>
             <CheckListUndraw />
@@ -52,24 +55,25 @@ const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
         </View>
       ) : (
         <FlatList
-          style={{ width: "100%" }}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "#eee",
-                marginTop: 15,
-                marginBottom: 15,
-              }}
-            />
+          style={{ width: "100%", paddingHorizontal: 15 }}
+          ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
+          data={todos}
+          renderItem={({ item }) => (
+            <Todo todoItem={item} todos={todos} setTodos={setTodos} />
           )}
-          data={Array(0).fill(0)}
-          renderItem={() => <Todo todos={todos} setTodos={setTodos} />}
         />
       )}
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => setModalVisible(true)}
+      >
         <AddIcon />
       </TouchableOpacity>
+      <AddTodoModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        setTodos={setTodos}
+      />
     </SafeAreaView>
   );
 };
@@ -100,5 +104,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: "10%",
     right: "5%",
+  },
+  listSeparator: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    marginTop: 15,
+    marginBottom: 15,
   },
 });

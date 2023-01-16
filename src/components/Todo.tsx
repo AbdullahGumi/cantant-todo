@@ -14,31 +14,42 @@ import { ITodo } from "../types";
 interface IProps {
   setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
   todos: ITodo[];
+  todoItem: ITodo;
 }
 
-const Todo = ({ setTodos }: IProps) => {
-  const [todo, setTodo] = useState("");
+const Todo = ({ setTodos, todos, todoItem }: IProps) => {
+  console.log(todos);
+  const [todo, setTodo] = useState(todoItem.title);
   const [isEditing, setIsEditing] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleEditPress = () => {
     setIsEditing(!isEditing);
   };
 
   const handleDeletePress = () => {
+    setTodos((prevTodos) =>
+      prevTodos.filter((todo) => todo.id !== todoItem.id)
+    );
     Toast.show({
       type: "success",
       text1: "Deleted Successfully",
     });
   };
 
+  const toggleCheck = () => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === todoItem.id
+          ? { ...todo, completed: !todoItem.completed }
+          : todo
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.checkMark}
-        onPress={() => setIsChecked(!isChecked)}
-      >
-        {isChecked && <CheckIcon />}
+      <TouchableOpacity style={styles.checkMark} onPress={() => toggleCheck()}>
+        {todoItem.completed && <CheckIcon />}
       </TouchableOpacity>
       <TextInput
         value={todo}
@@ -47,7 +58,7 @@ const Todo = ({ setTodos }: IProps) => {
         editable={isEditing}
         style={{
           flex: 1,
-          textDecorationLine: isChecked ? "line-through" : "none",
+          textDecorationLine: todoItem.completed ? "line-through" : "none",
         }}
       />
       <TouchableOpacity style={{ marginRight: 5 }} onPress={handleEditPress}>
