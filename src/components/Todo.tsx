@@ -23,7 +23,7 @@ const Todo = ({ setTodos, todos, todoItem }: IProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditPress = () => {
-    setIsEditing(!isEditing);
+    setIsEditing(true);
   };
 
   const handleDeletePress = () => {
@@ -46,6 +46,15 @@ const Todo = ({ setTodos, todos, todoItem }: IProps) => {
     );
   };
 
+  const updateTitle = () => {
+    setIsEditing(false);
+    setTodos((prevTodos) =>
+      prevTodos.map((items) =>
+        items.id === todoItem.id ? { ...items, title: todo } : items
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.checkMark} onPress={() => toggleCheck()}>
@@ -61,9 +70,15 @@ const Todo = ({ setTodos, todos, todoItem }: IProps) => {
           textDecorationLine: todoItem.completed ? "line-through" : "none",
         }}
       />
-      <TouchableOpacity style={{ marginRight: 5 }} onPress={handleEditPress}>
-        {isEditing ? <Text>✔</Text> : <EditIcon />}
-      </TouchableOpacity>
+      {isEditing ? (
+        <TouchableOpacity style={{ marginRight: 5 }} onPress={updateTitle}>
+          <Text>✔</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={{ marginRight: 5 }} onPress={handleEditPress}>
+          <EditIcon />
+        </TouchableOpacity>
+      )}
       <TouchableOpacity style={{ marginLeft: 10 }} onPress={handleDeletePress}>
         <TrashIcon />
       </TouchableOpacity>
