@@ -7,17 +7,20 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 
 import { CommonScreenProps } from "../navigation/types";
 import Todo from "../components/Todo";
 import { AddIcon, CheckListUndraw } from "../../assets/svg";
 import { ITodo } from "../types";
 import AddTodoModal from "../components/AddTodoModal";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todos, setTodos] = useState<ITodo[]>([]);
+
+  const { getTodos, saveTodos } = useLocalStorage();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,6 +39,18 @@ const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
       headerShadowVisible: false,
     });
   }, []);
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      const storedTodos = await getTodos();
+      if (storedTodos) setTodos(storedTodos);
+    };
+    loadTodos();
+  }, []);
+
+  useEffect(() => {
+    saveTodos(todos);
+  }, [todos]);
 
   return (
     <SafeAreaView style={styles.container}>
