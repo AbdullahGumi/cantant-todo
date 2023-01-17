@@ -47,7 +47,7 @@ const AddTodoModal = ({ modalVisible, setModalVisible, setTodos }: IProps) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Add item </Text>
+          <Text style={styles.modalText}>Add Item</Text>
           <TextInput
             style={styles.input}
             value={text}
@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    textTransform: "uppercase",
+    fontWeight: "500",
   },
   addButton: {
     width: "50%",

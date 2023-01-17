@@ -18,7 +18,6 @@ interface IProps {
 }
 
 const Todo = ({ setTodos, todos, todoItem }: IProps) => {
-  console.log(todos);
   const [todo, setTodo] = useState(todoItem.title);
   const [isEditing, setIsEditing] = useState(false);
 
