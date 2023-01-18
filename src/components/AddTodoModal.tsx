@@ -49,6 +49,7 @@ const AddTodoModal = ({ modalVisible, setModalVisible, setTodos }: IProps) => {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Add Item</Text>
           <TextInput
+            autoFocus
             style={styles.input}
             value={text}
             onChangeText={(t) => setText(t)}
@@ -134,12 +135,12 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    top: -5,
-    left: -5,
+    top: 1,
+    left: 1,
     backgroundColor: "red",
     borderRadius: 50,
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     justifyContent: "center",
     alignItems: "center",
   },

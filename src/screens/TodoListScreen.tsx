@@ -5,7 +5,6 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
-  Modal,
 } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 
