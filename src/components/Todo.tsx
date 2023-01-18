@@ -65,6 +65,8 @@ const Todo = ({ setTodos, todoItem }: IProps) => {
         editable={isEditing}
         style={{
           flex: 1,
+          color: "black",
+          fontWeight: "500",
           textDecorationLine: todoItem.completed ? "line-through" : "none",
         }}
       />
