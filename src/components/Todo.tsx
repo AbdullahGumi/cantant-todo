@@ -13,11 +13,10 @@ import { ITodo } from "../types";
 
 interface IProps {
   setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
-  todos: ITodo[];
   todoItem: ITodo;
 }
 
-const Todo = ({ setTodos, todos, todoItem }: IProps) => {
+const Todo = ({ setTodos, todoItem }: IProps) => {
   const [todo, setTodo] = useState(todoItem.title);
   const [isEditing, setIsEditing] = useState(false);
 

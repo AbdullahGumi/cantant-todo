@@ -8,12 +8,15 @@ import {
 } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 
-import { CommonScreenProps } from "../navigation/types";
 import Todo from "../components/Todo";
-import { AddIcon, CheckListUndraw } from "../../assets/svg";
-import { ITodo } from "../types";
 import AddTodoModal from "../components/AddTodoModal";
+import { CommonScreenProps } from "../navigation/types";
+
+import { ITodo } from "../types";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
+
+import { AddIcon, CheckListUndraw } from "../../assets/svg";
 
 const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,7 +76,7 @@ const TodoListScreen = ({ navigation }: CommonScreenProps<"TodoList">) => {
           ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
           data={todos}
           renderItem={({ item }) => (
-            <Todo todoItem={item} todos={todos} setTodos={setTodos} />
+            <Todo todoItem={item} setTodos={setTodos} />
           )}
         />
       )}
